@@ -1,5 +1,6 @@
 import tkinter
 import customtkinter
+import sqlite3
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -8,7 +9,19 @@ root = customtkinter.CTk()
 root.geometry("500x350")
 
 def login():
-    print("Login")
+    sqliteConnection = sqlite3.connect('./backend/database.db')
+    cursor = sqliteConnection.cursor()
+    credential_fetch = "SELECT username, password FROM Admin_Users"
+    cursor.execute(credential_fetch)
+    results = cursor.fetchall()
+    
+    for row in results:
+        username = row[0]
+        password = row[1]
+        print(username, password)
+        
+        if entry1.get() == username and entry2.get() == password:
+            print("Login Successful") #i love jake he is so fit omg give me his number
 
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)

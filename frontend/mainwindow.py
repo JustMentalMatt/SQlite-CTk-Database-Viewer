@@ -1,5 +1,6 @@
 import customtkinter
 import sqlite3
+from sqliteui import display_table
 
 def mainWindow():
     customtkinter.set_appearance_mode("dark")
@@ -28,9 +29,14 @@ def mainWindow():
     usrAuth = customtkinter.CTkLabel(master=usrinfoFrame, text="¬ Auth Level:  ", font=("Roboto", 14))
     usrAuth.grid(column=0, row=2, ipadx=10, sticky="SW")
     
-    # Button Box:
-    btnboxFrame = customtkinter.CTkFrame(master=root)
-    btnboxFrame.grid(column=0, columnspan=2, row=0, rowspan=10, ipadx=20, ipady=20, padx=20, pady=20, sticky="nsew")
+    sqlUIFrame = customtkinter.CTkFrame(master=root)
+    sqlUIFrame.grid(column=2, columnspan=5, row=0, rowspan=5, ipadx=5, ipady=5, padx=50, pady=20, sticky="NSEW")
+    sqlUI = customtkinter.CTkLabel(master=sqlUIFrame, text="-------SQLUI------", font=("Roboto", 130))
+    sqlUI.grid(column=0, columnspan=5, row=0, rowspan=2, ipadx=10, ipady=10, sticky="SWEN")
+    
+    # # Button Box:
+    # btnboxFrame = customtkinter.CTkFrame(master=root)
+    # btnboxFrame.grid(column=0, columnspan=3, row=0, rowspan=10, ipadx=20, ipady=20, padx=20, pady=20, sticky="nsew")
     
 
 #########################################################################################################################

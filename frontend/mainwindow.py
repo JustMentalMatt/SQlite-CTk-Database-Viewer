@@ -1,6 +1,8 @@
 import customtkinter
 import sqlite3
-from sqliteui import display_table
+from tkinter import *
+from tkinter import ttk
+
 
 def mainWindow():
     customtkinter.set_appearance_mode("dark")
@@ -30,9 +32,37 @@ def mainWindow():
     usrAuth.grid(column=0, row=2, ipadx=10, sticky="SW")
     
     sqlUIFrame = customtkinter.CTkFrame(master=root)
-    sqlUIFrame.grid(column=2, columnspan=5, row=0, rowspan=5, ipadx=5, ipady=5, padx=50, pady=20, sticky="NSEW")
-    sqlUI = customtkinter.CTkLabel(master=sqlUIFrame, text="-------SQLUI------", font=("Roboto", 130))
-    sqlUI.grid(column=0, columnspan=5, row=0, rowspan=2, ipadx=10, ipady=10, sticky="SWEN")
+    sqlUIFrame.grid(column=2, columnspan=5, row=0, rowspan=5, ipadx=5, ipady=5, padx=30, pady=20, sticky="NSEW")
+    sqlUI = customtkinter.CTkLabel(master=sqlUIFrame,font=("Roboto", 130))
+    sqlUI.grid(column=0, columnspan=5, row=0, rowspan=2, ipadx=10, ipady=10, sticky="NSEW")
+    
+    def SQL_TABLE_FETCH():
+        conn = sqlite3.connect('./backend/database.db')
+        c = conn.cursor()
+        c.execute("SELECT * FROM Admin_Users")
+        rows = c.fetchall()
+        t = ttk.Treeview(sqlUI)
+        t["columns"] = ("one", "two", "three", "four", "five")
+        t.heading("#0", text="ID")
+        t.column("#0", minwidth=50, width=50, stretch=YES)
+        t.heading("one", text="Name")
+        t.column("one", minwidth=150, width=150, stretch=YES)
+        t.heading("two", text="Email")
+        t.column("two", minwidth=200, width=200, stretch=YES)
+        t.heading("three", text="Join Date")
+        t.column("three", minwidth=150, width=150, stretch=YES)
+        t.heading("four", text="Username")
+        t.column("four", minwidth=150, width=150, stretch=YES)
+        t.heading("five", text="Password")
+        t.column("five", minwidth=150, width=150, stretch=YES)
+
+        for row in rows:
+            t.insert("", END, text=row[0], values=(row[1], row[2], row[3], row[4], row[5]))
+
+        t.grid(column=0, columnspan=5, row=0, rowspan=2, padx=5, ipadx=10, ipady=10, sticky="NS")
+    
+    SQL_TABLE_FETCH() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
+    
     
     # # Button Box:
     # btnboxFrame = customtkinter.CTkFrame(master=root)
@@ -57,4 +87,3 @@ def mainWindow():
     
     root.mainloop()
     
-mainWindow()

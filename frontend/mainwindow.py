@@ -86,4 +86,4 @@ def mainWindow():
     
     
     root.mainloop()
-mainWindow()
+# mainWindow()

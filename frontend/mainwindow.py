@@ -2,6 +2,8 @@ import customtkinter
 import sqlite3
 from tkinter import *
 from tkinter import ttk
+# from sqliteui import *
+
 
 
 def mainWindow():
@@ -36,7 +38,7 @@ def mainWindow():
     sqlUI = customtkinter.CTkLabel(master=sqlUIFrame,font=("Roboto", 130))
     sqlUI.grid(column=0, columnspan=5, row=0, rowspan=2, ipadx=10, ipady=10, sticky="NSEW")
     
-    def SQL_TABLE_FETCH():
+    def admin_usersTable():
         conn = sqlite3.connect('./backend/database.db')
         c = conn.cursor()
         c.execute("SELECT * FROM Admin_Users")
@@ -61,7 +63,7 @@ def mainWindow():
 
         t.grid(column=0, columnspan=5, row=0, rowspan=2, padx=5, ipadx=10, ipady=10, sticky="NS")
     
-    SQL_TABLE_FETCH() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
+    admin_usersTable() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
     
     
     # # Button Box:
@@ -86,4 +88,5 @@ def mainWindow():
     
     
     root.mainloop()
+    
 # mainWindow()

@@ -6,7 +6,7 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
 
 root = customtkinter.CTk()
-root.geometry("500x350")
+root.geometry("400x350")
 
 def login():
     sqliteConnection = sqlite3.connect('./backend/database.db')
@@ -16,15 +16,15 @@ def login():
     results = cursor.fetchall()
     
     for row in results:
+        global username
         username = row[0]
         password = row[1]
         
         if entry1.get() == username and entry2.get() == password:
             print("Login Successful") #i love jake he is so fit omg give me his number - 💕gaming💕
+            UserStatus = str(username)
             root.destroy()
-            mainWindow()
-            
-            
+            mainWindow()         
     return
 
 frame = customtkinter.CTkFrame(master=root)

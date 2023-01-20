@@ -2,8 +2,9 @@ import customtkinter
 import sqlite3
 from tkinter import *
 from tkinter import ttk
-# from sqliteui import *
+from sqliteui import AdminUsersTable_ENTRY
 
+loggedUserName = "i dont get paid enough for this"
 
 
 def mainWindow():
@@ -11,8 +12,8 @@ def mainWindow():
     customtkinter.set_default_color_theme("dark-blue")
 
     root = customtkinter.CTk()
-    root.geometry("1280x720")
-    root.title("Database Viewer")
+    root.geometry("1300x350") # original: 1280x720
+    root.title("Database Viewer <- this name sounds generic but its here anyway because of destiny or smthing idk ~ Ma 💕")
     root.resizable(False,False)
     
                                             # --------- Frames --------- #:
@@ -26,13 +27,19 @@ def mainWindow():
     tb_text.grid(column=0, columnspan=2, row=1, ipadx=10, sticky="w")
     
     # User Info Box:
+    
     usrinfoFrame = customtkinter.CTkFrame(master=root)
     usrinfoFrame.grid(column=0, columnspan=2, row=2, rowspan=1, ipadx=5, ipady=5, padx=20, pady=10, sticky="nsew")
-    usrName = customtkinter.CTkLabel(master=usrinfoFrame, text="¬ Logged in as: ", font=("Roboto", 14))
+    usrName = customtkinter.CTkLabel(master=usrinfoFrame, text="¬ Logged in as: " + loggedUserName, font=("Roboto", 14))
     usrName.grid(column=0, row=0, ipadx=10, ipady=10, sticky="SW")
-    usrAuth = customtkinter.CTkLabel(master=usrinfoFrame, text="¬ Auth Level:  ", font=("Roboto", 14))
+    authLevel_admin = True # This is temporary. Meant to be fetched from login_gui.py
+    if authLevel_admin == True:
+        authStatus = "Admin"
+    else:
+        authStatus = "User"
+    usrAuth = customtkinter.CTkLabel(master=usrinfoFrame, text="¬ Auth Level:  " + authStatus, font=("Roboto", 14))
     usrAuth.grid(column=0, row=2, ipadx=10, sticky="SW")
-    
+        
     sqlUIFrame = customtkinter.CTkFrame(master=root)
     sqlUIFrame.grid(column=2, columnspan=5, row=0, rowspan=5, ipadx=5, ipady=5, padx=30, pady=20, sticky="NSEW")
     sqlUI = customtkinter.CTkLabel(master=sqlUIFrame,font=("Roboto", 130))
@@ -62,9 +69,23 @@ def mainWindow():
             t.insert("", END, text=row[0], values=(row[1], row[2], row[3], row[4], row[5]))
 
         t.grid(column=0, columnspan=5, row=0, rowspan=2, padx=5, ipadx=10, ipady=10, sticky="NS")
+        
+        conn.commit()
+        c.close()
     
     admin_usersTable() # SQLUI - Loads data from database into table - (frontend\sqliteui.py)
     
+    def createRecord():
+        AdminUsersTable_ENTRY() # SQLUI - Create Records for Admin_Users Table - (frontend\sqliteui.py)
+        
+    createRecord_btn = customtkinter.CTkButton(master=root, text="Add Record", font=("Roboto", 16), command=createRecord)
+    createRecord_btn.grid(column=3, row=4, columnspan=3, padx=5, ipadx=50, sticky="SW")
+    
+    def refreshTable():
+        admin_usersTable()
+        
+    refreshTable_btn = customtkinter.CTkButton(master=root, text="Refresh", font=("Roboto", 16), command=refreshTable)
+    refreshTable_btn.grid(column=3, row=4, columnspan=3, padx=5, ipadx=10, sticky="SE")
     
     # # Button Box:
     # btnboxFrame = customtkinter.CTkFrame(master=root)
@@ -89,4 +110,4 @@ def mainWindow():
     
     root.mainloop()
     
-# mainWindow()
+mainWindow()
